@@ -1,0 +1,54 @@
+TITLE: SME Funding Programs and Support
+AUTHORITY: Monsha'at (General Authority for SMEs)
+URL: https://monshaat.gov.sa
+DATE: 2024
+
+## Overview
+Monsha'at, the General Authority for SMEs, is the government agency responsible for regulating, supporting, developing, and financing the SME sector in Saudi Arabia. SMEs represent 99.5% of business entities in the Kingdom.
+
+## Funding Programs
+
+### 1. Kafalah Program (Guarantee Program)
+- **Purpose:** Loan guarantees for SMEs unable to provide collateral
+- **Coverage:** Up to 80% of loan amount
+- **Maximum Guarantee:** SAR 40 million
+- **Eligibility:** SMEs with valid Commercial Registration
+
+### 2. SME Lending Program
+- **Purpose:** Direct financing for SME projects
+- **Loan Amount:** SAR 100,000 to SAR 10 million
+- **Interest Rate:** Competitive rates based on project risk
+- **Repayment Period:** Up to 7 years
+
+### 3. Venture Capital Support
+- **Purpose:** Equity financing for high-growth startups
+- **Focus Sectors:** Technology, manufacturing, services
+- **Investment Size:** SAR 2 million to SAR 50 million
+
+## Eligibility Criteria
+
+To qualify for Monsha'at programs:
+1. Valid Commercial Registration (CR)
+2. Annual revenue less than 375 million SAR
+3. Fewer than 250 employees
+4. Saudi ownership (varies by program)
+
+## Application Process
+
+1. **Online Registration:** Create account on Monsha'at portal
+2. **Document Submission:** Upload required documents
+3. **Project Evaluation:** 2-4 weeks review period
+4. **Approval & Disbursement:** Upon approval
+
+## Non-Financial Support
+
+- Business incubators and accelerators
+- Training and capacity building
+- Export support programs
+- E-commerce enablement
+
+## Contact Information
+
+- Website: https://monshaat.gov.sa
+- Call Center: 19988
+- Email: info@monshaat.gov.sa

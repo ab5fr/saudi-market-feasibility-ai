@@ -1,0 +1,74 @@
+TITLE: GOSI Registration and Social Insurance Requirements
+AUTHORITY: General Organization for Social Insurance (GOSI)
+URL: https://www.gosi.gov.sa
+DATE: 2024
+
+## Overview
+GOSI is the Saudi government agency responsible for social insurance for private sector employees. Registration is mandatory for all employers.
+
+## Registration Process
+
+### Who Must Register
+- All employers in the private sector
+- Saudi and non-Saudi employees
+- Domestic workers (separate system)
+
+### Registration Steps
+1. **Online Registration:** https://www.gosi.gov.sa
+2. **Document Upload:**
+   - Commercial Registration
+   - Owner/Manager ID
+   - Employee list with IDs
+3. **Verification:** 3-5 business days
+4. **GOSI Number Issued**
+
+## Contribution Rates (2024)
+
+### For Saudi Employees
+- **Employer Contribution:** 11% of salary
+- **Employee Contribution:** 11% of salary
+- **Total:** 22% of monthly wage
+
+### For Non-Saudi Employees
+- **Employer Contribution:** 2% of salary (occupational hazards only)
+- **Employee Contribution:** 0%
+- **Total:** 2% of monthly wage
+
+## Coverage and Benefits
+
+### For Saudi Employees
+- Retirement pension
+- Disability benefits
+- Death benefits
+- Occupational injury compensation
+- Unemployment benefits (SANED)
+
+### For Non-Saudi Employees
+- Occupational injury compensation
+- Death benefits (lump sum)
+
+## Monthly Reporting
+
+- **Deadline:** 15th of following month
+- **Method:** Online portal or approved payroll systems
+- **Penalties:** Late submission fines
+
+## Saudization Impact
+
+GOSI registration affects:
+- Nitaqat program compliance
+- Government contract eligibility
+- Work visa issuance
+
+## Important Notes
+
+- Registration must occur within 30 days of hiring first employee
+- Delayed registration incurs fines
+- Monthly payments are mandatory
+- Employee cannot be registered with multiple employers
+
+## Contact Information
+
+- Website: https://www.gosi.gov.sa
+- Call Center: 19988
+- Mobile App: GOSI (iOS/Android)

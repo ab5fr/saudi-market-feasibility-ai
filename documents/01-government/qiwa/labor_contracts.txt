@@ -1,0 +1,125 @@
+TITLE: Qiwa Platform - Labor Contracts and Employee Management
+AUTHORITY: Qiwa (Ministry of Human Resources and Social Development)
+URL: https://qiwa.sa
+DATE: 2024
+
+## Overview
+Qiwa is the unified platform for managing labor affairs in Saudi Arabia. It handles employment contracts, wage protection, and Saudization (Nitaqat) compliance.
+
+## Mandatory Services
+
+### 1. Employment Contract Management
+- **Digital Contracts:** All contracts must be created through Qiwa
+- **Contract Types:**
+  - Fixed-term contracts
+  - Indefinite contracts
+  - Project-based contracts
+  - Part-time contracts
+
+### 2. Wage Protection System (Mudad)
+- **Purpose:** Ensure timely salary payments
+- **Requirement:** All salaries must be paid through approved banks
+- **Timeline:** Within 10 days of month end
+- **Penalties:** Non-compliance affects Nitaqat rating
+
+### 3. Nitaqat (Saudization) Program
+- **Green Zone:** Highest Saudization compliance
+- **Red Zone:** Risk of penalties and restrictions
+
+## Saudization Requirements by Company Size
+
+| Employees | Minimum Saudi % |
+|-----------|----------------|
+| 1-5       | 1 Saudi employee |
+| 6-9       | 1 Saudi employee |
+| 10-19     | 10% |
+| 20-49     | 15% |
+| 50-99     | 20% |
+| 100-199   | 25% |
+| 200-499   | 30% |
+| 500+      | 30% |
+
+## Employee Onboarding Process
+
+### Step 1: Contract Creation
+1. Login to https://qiwa.sa
+2. Select "Create Contract"
+3. Enter employee details
+4. Define salary and benefits
+5. Employee accepts via Absher
+
+### Step 2: GOSI Registration
+- Automatic upon contract acceptance
+- Must register employee within 30 days
+
+### 3. Mudad Registration
+- Link bank account for wage payments
+- Ensure timely monthly transfers
+
+## Required Documents
+
+For New Saudi Employees:
+- Copy of ID
+- Qualification certificates
+- Medical insurance
+- Bank account details
+
+For Expatriate Employees:
+- Valid work visa
+- Medical insurance (mandatory)
+- Qualification attestation
+- Bank account details
+
+## Wage Requirements (2024)
+
+### Minimum Wages
+- **Saudi Employees:** No legal minimum (market-based)
+- **Expatriate Employees:** No legal minimum
+- **Common Practice:** SAR 3,000-5,000 for entry level
+
+### Benefits Requirements
+- Medical insurance (mandatory for all)
+- End-of-service benefits
+- Annual leave (21 days for first 5 years, 30 days after)
+- Sick leave (30 days full pay, 60 days half pay)
+
+## Contract Termination
+
+### Notice Period
+- **Fixed-term contracts:** 30 days notice
+- **Indefinite contracts:** 60 days notice
+
+### End-of-Service Benefits
+- **First 5 years:** Half month salary per year
+- **After 5 years:** Full month salary per year
+
+## Qiwa Platform Fees
+- **Contract Creation:** Free
+- **Contract Cancellation:** SAR 200
+- **Employee Transfer:** SAR 200
+
+## Integration with Other Systems
+
+- **Absher:** Employee authentication
+- **GOSI:** Social insurance
+- **Mudad:** Wage protection
+- **Nitaqat:** Saudization tracking
+
+## Important Compliance Dates
+
+- **Monthly Wages:** Must be paid by 10th of next month
+- **Contract Renewals:** 30 days before expiry
+- **GOSI Contributions:** 15th of next month
+- **Nitaqat Updates:** Quarterly
+
+## Contact Information
+- Website: https://qiwa.sa
+- Support: Available through platform
+- Ministry of HRSD: 19911
+
+## Penalties for Non-Compliance
+
+1. **Late Salary Payments:** Fines and Nitaqat downgrade
+2. **Missing Contracts:** Cannot process government services
+3. **Low Saudization:** Cannot hire expatriates, lose government contracts
+4. **No Medical Insurance:** Company fines

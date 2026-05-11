@@ -1,0 +1,58 @@
+[package]
+name = "saudi-market-backend"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "Saudi Market AI - Feasibility Study Platform Backend"
+
+[dependencies]
+# Web Framework
+axum = { version = "0.7", features = ["macros"] }
+tokio = { version = "1.35", features = ["full"] }
+tower = { version = "0.4", features = ["full"] }
+tower-http = { version = "0.5", features = ["cors", "trace", "compression-br"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Database
+sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "postgres", "uuid", "chrono", "migrate"] }
+
+# Environment & Config
+dotenvy = "0.15"
+config = "0.14"
+
+# Error Handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Validation
+validator = { version = "0.16", features = ["derive"] }
+
+# HTTP Client (for external APIs)
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+urlencoding = "2.1"
+
+# Async Traits
+async-trait = "0.1"
+
+# UUID
+cuid2 = "0.1"
+uuid = { version = "1.7", features = ["v4", "serde"] }
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+[dev-dependencies]
+tokio-test = "0.4"
+axum-test = "14.0"
+mockall = "0.12"
+
+[[bin]]
+name = "saudi-market-backend"
+path = "src/main.rs"

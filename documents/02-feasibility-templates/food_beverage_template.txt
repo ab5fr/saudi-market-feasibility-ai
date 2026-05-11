@@ -1,0 +1,384 @@
+TITLE: Feasibility Study Template - Food & Beverage Business
+TYPE: Template
+INDUSTRY: Food & Beverage
+DATE: 2024
+
+## Food & Beverage Business Specific Considerations
+
+This template provides guidance for conducting feasibility studies for restaurants, cafes, food trucks, and catering businesses in Saudi Arabia.
+
+## Regulatory Requirements
+
+### Licenses Required
+1. **Commercial Registration (CR)** - Ministry of Commerce
+2. **Municipal License (Balady)** - Local municipality
+3. **Food Safety Certificate** - Saudi Food & Drug Authority (SFDA)
+4. **Health Cards** - All food handlers
+5. **Signage Permit** - Municipality
+6. **Music License** (if applicable) - General Entertainment Authority
+
+### Health & Safety Requirements
+- HACCP certification recommended
+- Regular health inspections
+- Proper waste management system
+- Food storage compliance
+- Kitchen ventilation standards
+- Fire safety compliance
+
+## Location Analysis
+
+### High-Traffic Locations in Major Cities
+
+**Riyadh:**
+- Al-Olaya (business district)
+- Tahlia Street (high-end retail)
+- Diplomatic Quarter
+- King Abdullah Financial District (KAFD)
+- Shopping malls (Riyadh Park, Kingdom Centre)
+
+**Jeddah:**
+- Al-Andalus Street
+- Tahlia Street
+- Corniche area
+- Red Sea Mall
+- Jeddah waterfront
+
+**Dammam/Khobar:**
+- Corniche area
+- Al-Rashid Mall
+- Dhahran Street
+- Half Moon Bay area
+
+### Rent Estimates (2024)
+
+| Location Type | Riyadh | Jeddah | Dammam |
+|---------------|--------|--------|--------|
+| High-end street | SAR 4,000-8,000/m²/year | SAR 3,500-7,000/m²/year | SAR 2,500-5,000/m²/year |
+| Shopping mall | SAR 2,000-5,000/m²/year | SAR 1,800-4,500/m²/year | SAR 1,500-3,500/m²/year |
+| Mid-tier area | SAR 1,000-3,000/m²/year | SAR 800-2,500/m²/year | SAR 600-2,000/m²/year |
+
+## Financial Projections Template
+
+### Initial Investment
+
+| Category | Amount (SAR) | Notes |
+|----------|--------------|-------|
+| **Pre-opening** | | |
+| Lease deposit (6 months) | 150,000-600,000 | Varies by location |
+| Renovation & fit-out | 300,000-1,000,000 | SAR 3,000-8,000 per m² |
+| Kitchen equipment | 200,000-500,000 | Depends on menu complexity |
+| Furniture & fixtures | 100,000-300,000 | Seating, tables, decor |
+| POS system | 15,000-50,000 | Hardware + software |
+| Licenses & permits | 30,000-80,000 | CR, Balady, SFDA, etc. |
+| Initial inventory | 30,000-80,000 | Food, beverages, supplies |
+| Marketing (launch) | 50,000-150,000 | Pre-opening campaign |
+| Working capital reserve | 200,000-400,000 | 3-6 months operating costs |
+| **Total Initial Investment** | **1,075,000-3,160,000** | |
+
+### Monthly Operating Costs
+
+| Category | Amount (SAR) | Notes |
+|----------|--------------|-------|
+| Rent | 25,000-100,000 | Monthly lease |
+| Salaries & wages | 40,000-120,000 | 6-12 employees |
+| Food & beverage costs | 30,000-80,000 | 30-35% of revenue |
+| Utilities | 8,000-20,000 | Electricity, water, gas |
+| Marketing | 10,000-30,000 | Social media, promotions |
+| Maintenance | 5,000-15,000 | Equipment, repairs |
+| Insurance | 3,000-8,000 | Annual divided by 12 |
+| Miscellaneous | 5,000-15,000 | Supplies, minor expenses |
+| **Total Monthly Costs** | **126,000-388,000** | |
+
+### Revenue Projections
+
+**Conservative Estimate (First Year):**
+- Average transaction: SAR 45-80
+- Daily customers: 80-150
+- Monthly revenue: SAR 108,000-360,000
+- Annual revenue: SAR 1.3M-4.3M
+
+**Growth Projections:**
+- Year 2: +25-40% revenue growth
+- Year 3: +15-25% revenue growth (stabilizes)
+
+### Break-Even Analysis
+
+Typical food & beverage businesses in Saudi Arabia:
+- **Break-even period:** 12-24 months
+- **Average ROI:** 20-35% by Year 3
+- **Profit margin:** 10-20% net (after Year 1)
+
+## Market Analysis
+
+### Target Customer Segments
+
+1. **Young Professionals (25-35)**
+   - Frequency: 2-3 times per week
+   - Average spend: SAR 60-100
+   - Preferences: Quick service, WiFi, Instagram-worthy
+
+2. **Families**
+   - Frequency: 1-2 times per week
+   - Average spend: SAR 200-400 per visit
+   - Preferences: Kid-friendly, comfortable seating, value meals
+
+3. **Students**
+   - Frequency: 3-5 times per week
+   - Average spend: SAR 30-60
+   - Preferences: Affordable, study-friendly, WiFi
+
+4. **Business Meetings**
+   - Frequency: 2-3 times per week
+   - Average spend: SAR 80-150
+   - Preferences: Quiet environment, premium service
+
+### Market Trends (2024)
+
+- **Specialty Coffee:** Growing 15% annually
+- **Healthy Food:** High demand for organic, gluten-free options
+- **Delivery:** 30-40% of orders via apps (HungerStation, Jahez)
+- **Saudi-owned Preference:** Vision 2030 supporting local brands
+- **Experiential Dining:** Unique interiors, themed concepts
+
+## Risk Factors
+
+### High Risks
+1. **Location Risk:** Wrong location = business failure
+2. **Food Safety:** One incident can destroy reputation
+3. **Staff Turnover:** High turnover rates (40-60% annually)
+4. **Supply Chain:** Ingredient price fluctuations
+
+### Medium Risks
+1. **Seasonality:** Ramadan, summer heat affects foot traffic
+2. **Competition:** Market saturation in prime areas
+3. **Rent Increases:** Common in popular locations
+4. **Regulatory Changes:** Health codes, labor laws
+
+### Mitigation Strategies
+
+1. **Location:**
+   - Conduct foot traffic analysis
+   - Study competitor density
+   - Negotiate rent with revenue-sharing clause
+
+2. **Food Safety:**
+   - Strict HACCP protocols
+   - Regular staff training
+   - Quality control systems
+
+3. **Staff Management:**
+   - Competitive wages (above market rate)
+   - Clear career progression
+   - Employee benefits
+
+4. **Supply Chain:**
+   - Multiple suppliers
+   - Long-term contracts
+   - Inventory management system
+
+## Success Factors
+
+### Critical Success Factors
+
+1. **Location** (40% of success)
+   - High foot traffic
+   - Parking availability
+   - Visibility
+
+2. **Product Quality** (25% of success)
+   - Consistent taste
+   - Fresh ingredients
+   - Presentation
+
+3. **Service** (20% of success)
+   - Speed (3-5 minutes for coffee)
+   - Friendliness
+   - Accuracy
+
+4. **Atmosphere** (15% of success)
+   - Cleanliness
+   - Ambiance
+   - Comfort
+
+### KPIs to Track
+
+- Daily customer count
+- Average transaction value
+- Table turnover rate
+- Customer satisfaction score
+- Food cost percentage
+- Labor cost percentage
+- Repeat customer rate
+- Online review ratings
+
+## Marketing Strategy
+
+### Digital Marketing (Essential)
+
+1. **Instagram** (Primary platform)
+   - Daily posts
+   - Stories
+   - Influencer partnerships
+   - User-generated content
+
+2. **TikTok**
+   - Growing platform in Saudi Arabia
+   - Short-form video content
+   - Behind-the-scenes
+
+3. **Google Business Profile**
+   - Reviews management
+   - Photos
+   - Updates
+
+4. **Food Delivery Apps**
+   - HungerStation
+   - Jahez
+   - The Chefz (premium)
+
+### Traditional Marketing
+
+- Local newspaper ads
+- Radio (for broader reach)
+- Flyers in nearby buildings
+- Partnerships with nearby businesses
+
+### Launch Strategy
+
+**Pre-Opening (4 weeks):**
+- Social media teaser campaign
+- Influencer previews
+- Email list building
+- Soft opening invites
+
+**Opening Week:**
+- Grand opening promotion
+- Local media coverage
+- Influencer visits
+- Limited-time offers
+
+**First 3 Months:**
+- Weekly promotions
+- Loyalty program launch
+- Community events
+- Feedback collection
+
+## Technology Stack
+
+### Essential Systems
+
+1. **POS System**
+   - Foodics (popular in Saudi Arabia)
+   - Oracle Micros
+   - Square
+   - Custom solution
+
+2. **Inventory Management**
+   - Integration with POS
+   - Automatic reordering
+   - Waste tracking
+
+3. **Reservation System** (for restaurants)
+   - Table management
+   - Online booking
+   - Waitlist management
+
+4. **Accounting Software**
+   - QuickBooks (Arabic version)
+   - Xero
+   - Local ERP solutions
+
+5. **Staff Management**
+   - Scheduling software
+   - Time tracking
+   - Payroll integration
+
+## Legal & Compliance
+
+### Saudization (Nitaqat) Requirements
+
+For food & beverage businesses:
+- Small (1-5 employees): 1 Saudi employee
+- Medium (6-49 employees): 10-20% Saudi
+- Large (50+ employees): 20-30% Saudi
+
+**Typical Saudi Positions:**
+- Manager/Supervisor
+- Cashier
+- Customer service
+- Marketing/Social media
+
+### Working Hours
+
+- Maximum 8 hours/day, 48 hours/week
+- Ramadan: 6 hours/day
+- Overtime: 150% of regular wage
+- Friday is weekend (or substitute day)
+
+## Sample Timeline
+
+### Pre-Opening (3-6 months)
+
+**Month 1:**
+- Secure location
+- Finalize concept/menu
+- Initial permits application
+- Hire architect/designer
+
+**Month 2:**
+- Design finalization
+- Contractor selection
+- Equipment ordering
+- Brand development
+
+**Month 3:**
+- Construction begins
+- Staff recruitment starts
+- Supplier negotiations
+- Marketing planning
+
+**Month 4:**
+- Construction continues
+- Equipment installation
+- Staff hiring
+- Menu finalization
+
+**Month 5:**
+- Final inspections
+- Staff training
+- Soft opening preparation
+- Inventory stocking
+
+**Month 6:**
+- Soft opening
+- Final adjustments
+- Grand opening
+
+## Key Contacts
+
+### Government Agencies
+
+- **Ministry of Commerce:** CR registration
+- **Municipality:** Balady license, inspections
+- **SFDA:** Food safety certification
+- **GOSI:** Employee social insurance
+- **Qiwa:** Employee contracts
+
+### Industry Associations
+
+- **Saudi Culinary Arts Commission**
+- **Chamber of Commerce** (local)
+- **Restaurant Associations**
+
+## Conclusion
+
+Food & beverage businesses in Saudi Arabia can be highly profitable with proper planning. Key success factors are:
+
+1. Prime location selection
+2. Strong concept differentiation
+3. Consistent quality
+4. Excellent service
+5. Effective marketing
+6. Financial discipline
+
+With average break-even in 12-24 months and potential ROI of 20-35%, F&B remains an attractive sector in the Saudi market, especially with Vision 2030's focus on entertainment and tourism.

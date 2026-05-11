@@ -1,0 +1,172 @@
+TITLE: Balady - Municipal License Requirements
+AUTHORITY: Balady Platform (Ministry of Municipal and Rural Affairs)
+URL: https://balady.gov.sa
+DATE: 2024
+
+## Overview
+Balady is the unified platform for all municipal services in Saudi Arabia. All commercial establishments require a municipal license to operate legally.
+
+## Types of Municipal Licenses
+
+### 1. Commercial License (CR)
+- **Required For:** All retail, food, and service businesses
+- **Validity:** 1 year (renewable)
+- **Fee:** SAR 2,000 - 10,000 (varies by city and activity)
+
+### 2. Industrial License
+- **Required For:** Manufacturing and industrial activities
+- **Additional Requirements:** Environmental permits
+- **Processing Time:** 30-60 days
+
+### 3. Professional License
+- **Required For:** Offices, clinics, consultancies
+- **Requirements:** Professional qualifications
+
+## Application Process
+
+### Step 1: Location Requirements
+- Lease contract attested via Ejar platform
+- Space meets municipal requirements
+- Building has valid completion certificate
+
+### Step 2: Online Application
+1. Register on https://balady.gov.sa
+2. Submit required documents
+3. Pay applicable fees
+4. Schedule inspection (if required)
+
+### Step 3: Inspection
+- Municipal inspector visits location
+- Verifies compliance with regulations
+- May require modifications
+
+### Step 4: License Issuance
+- Digital license issued
+- Must display license at business location
+
+## Required Documents
+
+### General Requirements
+- Commercial Registration (CR)
+- Lease contract (attested)
+- Building completion certificate
+- Floor plan
+- Owner/Manager ID
+
+### Activity-Specific Requirements
+
+#### Food & Beverage
+- Food safety certificate
+- Kitchen layout approval
+- Waste management plan
+- Staff health certificates
+
+#### Retail
+- Signage design approval
+- Store layout
+- Product storage specifications
+
+#### Healthcare
+- Medical license from Ministry of Health
+- Staff qualifications
+- Equipment specifications
+- Infection control plan
+
+## License Fees by City (2024 Estimates)
+
+| City | Small Shop | Large Retail | Restaurant |
+|------|-----------|--------------|------------|
+| Riyadh | SAR 3,000-5,000 | SAR 8,000-15,000 | SAR 5,000-12,000 |
+| Jeddah | SAR 3,500-6,000 | SAR 10,000-18,000 | SAR 6,000-15,000 |
+| Dammam | SAR 3,000-5,000 | SAR 8,000-14,000 | SAR 5,000-12,000 |
+| Other Cities | SAR 2,000-4,000 | SAR 6,000-10,000 | SAR 4,000-8,000 |
+
+## Signage Regulations
+
+### Requirements
+- Arabic text mandatory
+- English text optional
+- No offensive or inappropriate content
+- Proper size ratios
+- Approval required before installation
+
+### Signage Permit Fees
+- Small sign: SAR 500-1,000
+- Medium sign: SAR 1,000-3,000
+- Large sign: SAR 3,000-10,000
+
+## Inspection Checklist
+
+Municipal inspectors check for:
+- [ ] Fire safety compliance
+- [ ] Emergency exits
+- [ ] Accessibility for disabled
+- [ ] Sanitation facilities
+- [ ] Waste disposal systems
+- [ ] Proper ventilation
+- [ ] Electrical safety
+- [ ] Structural integrity
+
+## Renewal Process
+
+### Timeline
+- **Renewal Window:** 60 days before expiry
+- **Grace Period:** 30 days after expiry (with fines)
+
+### Renewal Fees
+- Standard renewal: Same as initial license
+- Late renewal: +20% penalty
+- After grace period: New application required
+
+## Common Violations and Fines
+
+| Violation | Fine (SAR) |
+|-----------|-----------|
+| Operating without license | 10,000 - 50,000 |
+| Expired license | 5,000 - 10,000 |
+| Unauthorized signage | 2,000 - 5,000 |
+| Health/safety violations | 5,000 - 20,000 |
+| Unapproved modifications | 5,000 - 15,000 |
+
+## Special Zones
+
+### Free Zones
+- Certain industrial cities have simplified procedures
+- Lower fees in some economic zones
+- Special incentives for specific activities
+
+### Heritage Areas
+- Stricter design requirements
+- Special signage regulations
+- Limited activities allowed
+
+## Integration with Other Systems
+
+- **Ejar:** Lease contract attestation
+- **Ministry of Commerce:** CR verification
+- **Civil Defense:** Safety compliance
+- **Ministry of Health:** Food safety
+
+## Contact Information
+
+- Website: https://balady.gov.sa
+- Call Center: 19983
+- Mobile App: Balady (iOS/Android)
+
+## Important Notes
+
+1. **Display Requirement:** License must be visibly displayed at entrance
+2. **Modifications:** Any location changes require re-approval
+3. **Activity Changes:** New license required for different activities
+4. **Sub-leasing:** Generally prohibited without approval
+
+## Processing Times
+
+| Activity Type | Standard | Express |
+|---------------|----------|---------|
+| Simple retail | 5-10 days | 2-3 days |
+| Food service | 10-20 days | 5-10 days |
+| Healthcare | 20-30 days | 10-15 days |
+| Industrial | 30-60 days | 15-30 days |
+
+*Express service may have additional fees

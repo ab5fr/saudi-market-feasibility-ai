@@ -1,0 +1,227 @@
+TITLE: ZATCA - Tax and Zakat Registration Guide
+AUTHORITY: ZATCA (Zakat, Tax and Customs Authority)
+URL: https://zatca.gov.sa
+DATE: 2024
+
+## Overview
+ZATCA is responsible for collecting Zakat and taxes in Saudi Arabia. All businesses must register and comply with Zakat/tax obligations.
+
+## Registration Requirements
+
+### Who Must Register
+All businesses must register with ZATCA:
+- Saudi-owned companies (Zakat)
+- Foreign-owned companies (Tax)
+- Mixed ownership (both Zakat and Tax)
+- Individual establishments (if applicable)
+
+### Registration Timeline
+- **Within 30 days** of obtaining Commercial Registration
+- **Before commencing operations** (recommended)
+
+## Zakat vs Tax
+
+### Zakat (for Saudi-owned businesses)
+- **Rate:** 2.5% of net worth or taxable income
+- **Applicable to:** Saudi citizens and GCC nationals
+- **Calculation Base:** Net invested funds or taxable income
+
+### Income Tax (for foreign-owned businesses)
+- **Rate:** 20% of net income
+- **Applicable to:** Non-Saudi/non-GCC shareholders
+- **Withholding Tax:** Varies by type (5%-20%)
+
+### Mixed Ownership
+- **Saudi share:** Subject to Zakat
+- **Foreign share:** Subject to Income Tax
+- **Separate calculations required**
+
+## VAT (Value Added Tax)
+
+### Registration Thresholds
+- **Mandatory:** Annual revenue > SAR 375,000
+- **Voluntary:** Annual revenue > SAR 187,500
+- **Exempt:** Revenue below SAR 187,500 (but can register)
+
+### VAT Rates
+- **Standard Rate:** 15%
+- **Zero Rate:** 0% (specific exports, certain goods)
+- **Exempt:** No VAT (financial services, residential rent, healthcare)
+
+### VAT Filing
+- **Frequency:** Monthly or Quarterly (based on revenue)
+- **Monthly:** Revenue > SAR 40 million
+- **Quarterly:** Revenue < SAR 40 million
+- **Deadline:** Last day of month following period end
+
+## Registration Process
+
+### Step 1: Online Registration
+1. Visit https://zatca.gov.sa
+2. Click "Taxpayer Registration"
+3. Enter Commercial Registration number
+4. Fill business information
+5. Submit required documents
+
+### Step 2: Document Upload
+- Commercial Registration
+- Bank account details
+- Owner/shareholder IDs
+- Financial statements (if existing business)
+- Lease contract
+
+### Step 3: Verification
+- ZATCA reviews application (5-10 business days)
+- May request additional documents
+- Taxpayer certificate issued
+
+### Step 4: VAT Registration (if applicable)
+- Separate application for VAT
+- Must register if above threshold
+- VAT certificate issued
+
+## Filing and Payment
+
+### Zakat Return
+- **Filing Deadline:** 120 days after fiscal year end
+- **Payment:** Same as filing deadline
+- **Form:** Zakat Declaration Form
+
+### Income Tax Return
+- **Filing Deadline:** 120 days after fiscal year end
+- **Payment:** Same as filing deadline
+- **Form:** Corporate Tax Return
+
+### VAT Return
+- **Monthly Filing:** 15th of following month
+- **Quarterly Filing:** Last day of month following quarter end
+- **Payment:** Same as filing deadline
+
+## Estimated Tax Costs
+
+### Example 1: Saudi-owned LLC (SAR 1M revenue, SAR 200K profit)
+- Zakat (2.5% of profit): SAR 5,000
+- VAT collected (15% on sales): SAR 150,000
+- Less: VAT paid on purchases
+- **Net VAT due:** Varies by input VAT
+
+### Example 2: Foreign-owned Branch (SAR 2M revenue, SAR 400K profit)
+- Income Tax (20% of profit): SAR 80,000
+- VAT obligations: Same calculation
+
+### Example 3: Mixed Ownership (60% Saudi, 40% Foreign)
+- Zakat portion (60% of profit × 2.5%)
+- Tax portion (40% of profit × 20%)
+- VAT obligations: Full amount
+
+## Withholding Tax
+
+### Applicable Payments
+- Dividends to non-residents: 5%
+- Royalties: 15%
+- Technical services: 5%
+- Management fees: 20%
+- Rent: 5%
+
+### Compliance
+- Deduct at time of payment
+- File monthly withholding return
+- Pay by 10th of following month
+
+## Penalties
+
+| Violation | Penalty |
+|-----------|---------|
+| Late registration | SAR 10,000 |
+| Late filing | 1% of tax due per month delay |
+| Late payment | 1% of tax due per month delay |
+| Non-filing | 25% of tax due |
+| Tax evasion | 100% of tax due + criminal prosecution |
+| Incorrect VAT invoice | SAR 5,000 - 50,000 |
+
+## E-Invoicing (Fatoorah)
+
+### Requirements
+- All VAT-registered businesses must use e-invoicing
+- Two phases:
+  - **Phase 1:** Generation of electronic invoices
+  - **Phase 2:** Integration with ZATCA system
+
+### Technical Requirements
+- ZATCA-compliant software
+- XML invoice format
+- QR code generation
+- Digital signature
+
+### Timeline
+- Phase 1: Already implemented
+- Phase 2: Rolling implementation by business size
+
+## Common Deductions
+
+### Allowable Expenses
+- Salaries and wages
+- Rent and utilities
+- Depreciation
+- Marketing expenses
+- Professional fees
+- Travel expenses (business)
+- Insurance
+
+### Non-Deductible Expenses
+- Personal expenses
+- Fines and penalties
+- Entertainment expenses
+- Zakat and tax payments
+
+## Record Keeping
+
+### Requirements
+- Maintain records for 10 years
+- Digital records acceptable
+- Must be in Arabic or bilingual
+- Include all invoices and receipts
+
+### Recommended Software
+- QuickBooks (Arabic version)
+- SAP Business One
+- Oracle NetSuite
+- Local ERP systems
+
+## Tax Incentives
+
+### For Specific Regions
+- Certain economic zones offer tax holidays
+- Reduced rates for manufacturing
+- Export incentives
+
+### For Specific Activities
+- R&D tax credits
+- Training incentives
+- Saudization bonuses (tax deductions)
+
+## Contact Information
+
+- Website: https://zatca.gov.sa
+- Call Center: 19993
+- Email: info@zatca.gov.sa
+- Mobile App: ZATCA (iOS/Android)
+
+## Important Dates
+
+| Activity | Deadline |
+|----------|----------|
+| Zakat/Tax Return | 120 days after year end |
+| VAT Monthly Filing | 15th of next month |
+| VAT Quarterly Filing | End of month after quarter |
+| Withholding Tax | 10th of next month |
+| Annual Financial Statements | 6 months after year end |
+
+## Tips for Compliance
+
+1. **Register Early:** Don't wait for 30-day deadline
+2. **Use Accounting Software:** Easier tracking and reporting
+3. **Hire Tax Consultant:** For complex structures
+4. **Keep Good Records:** Essential for audits
+5. **File on Time:** Avoid penalties
+6. **Understand VAT:** Complex rules require attention
