@@ -1,57 +1,55 @@
 [package]
 name = "saudi-market-backend"
 version = "0.1.0"
-edition = "2021"
-authors = ["Your Name <your.email@example.com>"]
+edition = "2024"
+authors = ["Abdullah Balila <a2005balila@gmail.com>"]
 description = "Saudi Market AI - Feasibility Study Platform Backend"
 
 [dependencies]
 # Web Framework
-axum = { version = "0.7", features = ["macros"] }
-tokio = { version = "1.35", features = ["full"] }
-tower = { version = "0.4", features = ["full"] }
-tower-http = { version = "0.5", features = ["cors", "trace", "compression-br"] }
+axum = { version = "*", features = ["macros"] }
+tokio = { version = "*", features = ["full"] }
+tower = { version = "*", features = ["full"] }
+tower-http = { version = "*", features = ["cors", "trace", "compression-br"] }
 
 # Serialization
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-
-# Database
-sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "postgres", "uuid", "chrono", "migrate"] }
+serde = { version = "*", features = ["derive"] }
+serde_json = "*"
+pdf-extract = "*"
 
 # Environment & Config
-dotenvy = "0.15"
-config = "0.14"
+dotenvy = "*"
+config = "*"
 
 # Error Handling
-thiserror = "1.0"
-anyhow = "1.0"
+thiserror = "*"
+anyhow = "*"
 
 # Logging
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+tracing = "*"
+tracing-subscriber = { version = "*", features = ["env-filter", "json"] }
 
 # Validation
-validator = { version = "0.16", features = ["derive"] }
+validator = { version = "*", features = ["derive"] }
 
 # HTTP Client (for external APIs)
-reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
-urlencoding = "2.1"
+reqwest = { version = "*", features = ["json", "rustls-tls"] }
+urlencoding = "*"
 
 # Async Traits
-async-trait = "0.1"
+async-trait = "*"
 
 # UUID
-cuid2 = "0.1"
-uuid = { version = "1.7", features = ["v4", "serde"] }
+cuid2 = "*"
+uuid = { version = "*", features = ["v4", "serde"] }
 
 # Date/Time
-chrono = { version = "0.4", features = ["serde"] }
+chrono = { version = "*", features = ["serde"] }
 
 [dev-dependencies]
-tokio-test = "0.4"
-axum-test = "14.0"
-mockall = "0.12"
+tokio-test = "*"
+axum-test = "*"
+mockall = "*"
 
 [[bin]]
 name = "saudi-market-backend"

@@ -36,3 +36,8 @@ coverage/
 # Misc
 *.tmp
 *.swp
+
+# Python
+__pycache__/
+.pytest_cache/
+.venv/

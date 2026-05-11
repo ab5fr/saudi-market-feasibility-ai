@@ -12,7 +12,7 @@ use crate::{
         RiskAssessment, RiskItem, RiskLevel, Verdict,
     },
     services::{
-        document_service::{DocumentService, RagPipeline},
+        document_service::RagPipeline,
         gemini_service::GeminiService,
     },
 };
@@ -33,7 +33,7 @@ pub async fn generate_feasibility_study(
         .validate()
         .map_err(|e: validator::ValidationErrors| AppError::Validation(e.to_string()))?;
 
-    // Initialize services - Using Gemini for all LLM tasks (Claude code kept for later)
+    // Initialize services
     let gemini = GeminiService::new(&config);
     let rag = RagPipeline::new(&config);
 
@@ -54,7 +54,7 @@ pub async fn generate_feasibility_study(
         }
     };
 
-    // Step 2: Build business request for Claude
+    // Step 2: Build business request for Gemini
     let capital_text = if payload.capital_budget > 0.0 {
         format!("SAR {:.2}", payload.capital_budget)
     } else {
@@ -78,8 +78,7 @@ pub async fn generate_feasibility_study(
         payload.description
     );
 
-    // Step 3: Generate feasibility study using Gemini (instead of Claude for now)
-    // Note: ClaudeService code is kept in the codebase for later use when API key is available
+    // Step 3: Generate feasibility study using Gemini
     let study_json = match gemini
         .generate_feasibility_study(&business_request, &context)
         .await
@@ -112,7 +111,7 @@ pub async fn generate_feasibility_study(
     Ok(Json(ApiResponse::success(response)))
 }
 
-/// Parse Claude's study JSON into FeasibilityStudyResponse
+/// Parse Gemini's study JSON into FeasibilityStudyResponse
 fn parse_study_response(
     json: serde_json::Value,
     request: &FeasibilityRequest,
@@ -514,11 +513,11 @@ fn create_sample_study(request: &FeasibilityRequest) -> FeasibilityStudyResponse
     let revenue_year_3 = 165000.0 * 12.0;
     let cogs_ratio = 0.30;
 
+    let raw_id = uuid::Uuid::new_v4().simple().to_string();
+    let short_id = &raw_id[..16];
+
     FeasibilityStudyResponse {
-        study_id: format!(
-            "study_{}",
-            uuid::Uuid::new_v4().to_string().replace("-", "")[..16].to_string()
-        ),
+        study_id: format!("study_{}", short_id),
         business_name: request.business_name.clone(),
         generated_at: chrono::Utc::now(),
         executive_summary: ExecutiveSummary {

@@ -1,10 +1,10 @@
 use reqwest::Client;
-use tracing::{info, instrument, error};
+use tracing::{info, instrument};
 
 use crate::config::AppConfig;
 
 /// Qdrant Vector Database Service
-/// 
+///
 /// Used for: Storing and retrieving document embeddings for RAG
 pub struct QdrantService {
     client: Client,
@@ -22,6 +22,7 @@ impl QdrantService {
     }
 
     /// Store document embeddings
+    #[allow(dead_code)]
     #[instrument(skip(self, embeddings))]
     pub async fn store_embeddings(
         &self,
@@ -30,7 +31,7 @@ impl QdrantService {
         metadata: Vec<serde_json::Value>,
     ) -> anyhow::Result<Vec<String>> {
         info!("Storing {} embeddings in Qdrant", embeddings.len());
-        
+
         // Build points for upsert
         let points: Vec<serde_json::Value> = embeddings
             .iter()
@@ -53,9 +54,13 @@ impl QdrantService {
             "points": points
         });
 
-        let url = format!("{}/collections/{}/points?wait=true", self.base_url, self.collection_name);
-        
-        let response = self.client
+        let url = format!(
+            "{}/collections/{}/points?wait=true",
+            self.base_url, self.collection_name
+        );
+
+        let response = self
+            .client
             .put(&url)
             .header("Content-Type", "application/json")
             .json(&request_body)
@@ -67,10 +72,11 @@ impl QdrantService {
             anyhow::bail!("Qdrant upsert error: {}", error_text);
         }
 
-        let point_ids: Vec<String> = points.iter()
+        let point_ids: Vec<String> = points
+            .iter()
             .map(|p| p["id"].as_str().unwrap_or("").to_string())
             .collect();
-        
+
         info!("Successfully stored {} embeddings", point_ids.len());
         Ok(point_ids)
     }
@@ -82,16 +88,20 @@ impl QdrantService {
         top_k: i64,
     ) -> anyhow::Result<Vec<SearchResult>> {
         info!("Searching Qdrant for {} similar documents", top_k);
-        
+
         let request_body = serde_json::json!({
             "vector": query_embedding,
             "limit": top_k,
             "with_payload": true
         });
 
-        let url = format!("{}/collections/{}/points/search", self.base_url, self.collection_name);
-        
-        let response = self.client
+        let url = format!(
+            "{}/collections/{}/points/search",
+            self.base_url, self.collection_name
+        );
+
+        let response = self
+            .client
             .post(&url)
             .header("Content-Type", "application/json")
             .json(&request_body)
@@ -104,7 +114,7 @@ impl QdrantService {
         }
 
         let result: serde_json::Value = response.json().await?;
-        
+
         let search_results: Vec<SearchResult> = result["result"]
             .as_array()
             .unwrap_or(&Vec::new())
@@ -121,16 +131,17 @@ impl QdrantService {
     }
 
     /// Create collection if not exists
+    #[allow(dead_code)]
     pub async fn ensure_collection(&self) -> anyhow::Result<()> {
-        info!("Ensuring Qdrant collection '{}' exists", self.collection_name);
-        
+        info!(
+            "Ensuring Qdrant collection '{}' exists",
+            self.collection_name
+        );
+
         // Check if collection exists
         let url = format!("{}/collections/{}", self.base_url, self.collection_name);
-        
-        let response = self.client
-            .get(&url)
-            .send()
-            .await?;
+
+        let response = self.client.get(&url).send().await?;
 
         if response.status().is_success() {
             info!("Collection '{}' already exists", self.collection_name);
@@ -139,15 +150,16 @@ impl QdrantService {
 
         // Create collection
         let create_url = format!("{}/collections/{}", self.base_url, self.collection_name);
-        
+
         let request_body = serde_json::json!({
             "vectors": {
-                "size": 3072, // text-embedding-3-large dimension
+                "size": 768, // text-embedding-004 dimension
                 "distance": "Cosine"
             }
         });
 
-        let create_response = self.client
+        let create_response = self
+            .client
             .put(&create_url)
             .header("Content-Type", "application/json")
             .json(&request_body)
@@ -164,26 +176,27 @@ impl QdrantService {
     }
 
     /// Delete collection
+    #[allow(dead_code)]
     pub async fn delete_collection(&self) -> anyhow::Result<()> {
         let url = format!("{}/collections/{}", self.base_url, self.collection_name);
-        
-        let response = self.client
-            .delete(&url)
-            .send()
-            .await?;
+
+        let response = self.client.delete(&url).send().await?;
 
         if response.status().is_success() {
             info!("Deleted Qdrant collection '{}'", self.collection_name);
         }
-        
+
         Ok(())
     }
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct SearchResult {
+    #[allow(dead_code)]
     pub id: String,
     pub score: f32,
+    #[allow(dead_code)]
     pub payload: serde_json::Value,
     pub text: String,
 }

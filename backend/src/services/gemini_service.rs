@@ -12,6 +12,7 @@ pub struct GeminiService {
     api_key: String,
     base_url: String,
     model: String,
+    embedding_model: String,
 }
 
 impl GeminiService {
@@ -21,11 +22,13 @@ impl GeminiService {
             api_key: config.gemini_api_key.clone(),
             base_url: "https://generativelanguage.googleapis.com/v1beta".to_string(),
             model: config.gemini_model.clone(),
+            embedding_model: config.gemini_embedding_model.clone(),
         }
     }
 
     /// Analyze documents with long context window
     /// Gemini 1.5 Pro supports up to 1M+ token context window
+    #[allow(dead_code)]
     #[instrument(skip(self, documents))]
     pub async fn analyze_documents(
         &self,
@@ -94,6 +97,7 @@ impl GeminiService {
     }
 
     /// Generate response grounded in provided context (RAG-style)
+    #[allow(dead_code)]
     pub async fn generate_grounded_response(
         &self,
         prompt: &str,
@@ -158,6 +162,7 @@ impl GeminiService {
     }
 
     /// Extract structured information from Saudi documents
+    #[allow(dead_code)]
     pub async fn extract_regulatory_info(
         &self,
         document_text: &str,
@@ -235,7 +240,6 @@ Extract and return ONLY JSON with this structure:
     }
 
     /// Generate a complete feasibility study using Gemini
-    /// This replaces Claude for users who only have Gemini API key
     pub async fn generate_feasibility_study(
         &self,
         business_request: &str,
@@ -545,7 +549,6 @@ IMPORTANT:
     }
 
     /// Orchestrate a persona debate using Gemini
-    /// This replaces Claude for users who only have Gemini API key
     pub async fn orchestrate_debate(
         &self,
         business_request: &str,
@@ -672,5 +675,90 @@ IMPORTANT:
             })?;
 
         Ok(debate_json)
+    }
+
+    /// Create embeddings for document chunks using Gemini embedding model
+    #[instrument(skip(self, texts))]
+    pub async fn create_embeddings(&self, texts: Vec<String>) -> anyhow::Result<Vec<Vec<f32>>> {
+        info!("Creating {} embeddings with Gemini", texts.len());
+
+        if self.api_key.is_empty() {
+            anyhow::bail!("Gemini API key not configured");
+        }
+
+        if texts.is_empty() {
+            return Ok(Vec::new());
+        }
+
+        let requests: Vec<serde_json::Value> = texts
+            .into_iter()
+            .map(|text| {
+                serde_json::json!({
+                    "content": {
+                        "parts": [{"text": text}]
+                    }
+                })
+            })
+            .collect();
+
+        let request_body = serde_json::json!({
+            "requests": requests
+        });
+
+        let url = format!(
+            "{}/models/{}:batchEmbedContents?key={}",
+            self.base_url, self.embedding_model, self.api_key
+        );
+
+        let response = self
+            .client
+            .post(&url)
+            .header("Content-Type", "application/json")
+            .json(&request_body)
+            .send()
+            .await?;
+
+        if !response.status().is_success() {
+            let error_text = response.text().await?;
+            anyhow::bail!("Gemini embedding API error: {}", error_text);
+        }
+
+        let result: serde_json::Value = response.json().await?;
+        let embeddings = result["embeddings"]
+            .as_array()
+            .ok_or_else(|| anyhow::anyhow!("Invalid embedding response format"))?
+            .iter()
+            .map(|item| {
+                let values = item
+                    .get("values")
+                    .and_then(|v| v.as_array())
+                    .or_else(|| {
+                        item.get("embedding")
+                            .and_then(|e| e.get("values"))
+                            .and_then(|v| v.as_array())
+                    })
+                    .ok_or_else(|| anyhow::anyhow!("Missing embedding values"))?;
+
+                values
+                    .iter()
+                    .map(|v| {
+                        v.as_f64()
+                            .ok_or_else(|| anyhow::anyhow!("Invalid embedding value"))
+                            .map(|f| f as f32)
+                    })
+                    .collect::<Result<Vec<f32>, _>>()
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+
+        Ok(embeddings)
+    }
+
+    /// Create embedding for a single query
+    pub async fn create_query_embedding(&self, query: &str) -> anyhow::Result<Vec<f32>> {
+        let embeddings = self.create_embeddings(vec![query.to_string()]).await?;
+        embeddings
+            .into_iter()
+            .next()
+            .ok_or_else(|| anyhow::anyhow!("No embedding generated"))
     }
 }

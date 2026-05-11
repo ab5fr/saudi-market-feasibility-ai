@@ -45,11 +45,11 @@
     "embla-carousel-react": "^8.0.0",
     "input-otp": "^1.0.1",
     "lucide-react": "^0.344.0",
-    "next": "14.2.0",
+    "next": "*",
     "next-themes": "^0.2.1",
-    "react": "^18.2.0",
+    "react": "*",
     "react-day-picker": "^8.10.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "*",
     "react-hook-form": "^7.51.0",
     "react-resizable-panels": "^2.0.12",
     "sonner": "^1.4.3",
@@ -59,12 +59,12 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
     "autoprefixer": "^10.4.18",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.0"
+    "typescript": "*"
   }
 }

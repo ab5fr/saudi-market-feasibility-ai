@@ -5,30 +5,25 @@ use axum::{
 use std::net::SocketAddr;
 use tokio::net::TcpListener;
 use tower_http::{
+    compression::CompressionLayer,
     cors::{Any, CorsLayer},
     trace::TraceLayer,
-    compression::CompressionLayer,
 };
 use tracing::{info, Level};
 use tracing_subscriber::FmtSubscriber;
 
 mod config;
-mod db;
 mod models;
 mod routes;
 mod services;
-mod middleware;
-mod utils;
-
-use models::db_models;
 
 use config::AppConfig;
-use routes::{personas, rag_study, competitors};
+use routes::{competitors, personas, rag_study};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     // Initialize tracing/logging
-    let subscriber = FmtSubscriber::builder()
+    FmtSubscriber::builder()
         .with_max_level(Level::INFO)
         .with_target(false)
         .compact()
@@ -72,7 +67,10 @@ fn create_router(config: AppConfig) -> Router {
         .route("/health", get(health_check))
         // Core API routes
         .route("/api/personas", post(personas::create_persona_debate))
-        .route("/api/rag-study", post(rag_study::generate_feasibility_study))
+        .route(
+            "/api/rag-study",
+            post(rag_study::generate_feasibility_study),
+        )
         .route("/api/competitors", post(competitors::analyze_competitors))
         // Layers
         .layer(TraceLayer::new_for_http())

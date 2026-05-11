@@ -1,5 +1,5 @@
 use reqwest::Client;
-use tracing::{info, instrument, error};
+use tracing::{info, instrument};
 
 use crate::config::AppConfig;
 
@@ -75,6 +75,7 @@ impl PlacesService {
     }
 
     /// Get detailed information about a specific place
+    #[allow(dead_code)]
     pub async fn get_place_details(
         &self,
         place_id: &str,
@@ -141,6 +142,7 @@ impl PlacesService {
     }
 
     /// Text search for places (alternative to nearby search)
+    #[allow(dead_code)]
     pub async fn text_search(
         &self,
         query: &str,

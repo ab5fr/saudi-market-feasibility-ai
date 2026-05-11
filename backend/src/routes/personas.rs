@@ -31,7 +31,7 @@ pub async fn create_persona_debate(
         .validate()
         .map_err(|e: validator::ValidationErrors| AppError::Validation(e.to_string()))?;
 
-    // Initialize Gemini service (using Gemini instead of Claude for now)
+    // Initialize Gemini service
     let gemini = GeminiService::new(&config);
 
     // Define personas for the debate as JSON values for Gemini
@@ -73,8 +73,7 @@ pub async fn create_persona_debate(
         payload.description
     );
 
-    // Orchestrate debate using Gemini (instead of Claude for now)
-    // Note: ClaudeService code is kept in codebase for later use
+    // Orchestrate debate using Gemini
     let debate_result = match gemini.orchestrate_debate(&business_idea, &personas).await {
         Ok(result) => result,
         Err(e) => {

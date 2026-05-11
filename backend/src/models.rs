@@ -36,8 +36,8 @@ pub struct FeasibilityRequest {
 
     /// Capital budget in SAR (Saudi Riyals)
     #[validate(range(
-        min = 0,
-        max = 1000000000,
+        min = 0.0,
+        max = 1000000000.0,
         message = "Budget must be 0 or more (use 0 to let AI estimate)"
     ))]
     pub capital_budget: f64,
@@ -113,6 +113,7 @@ impl<T> ApiResponse<T> {
         }
     }
 
+    #[allow(dead_code)]
     pub fn error(message: impl Into<String>) -> Self {
         Self {
             success: false,
@@ -436,6 +437,7 @@ pub struct OnlinePresenceSummary {
 // Error Types
 // ============================================================================
 
+#[allow(dead_code)]
 #[derive(Debug, thiserror::Error)]
 pub enum AppError {
     #[error("Validation error: {0}")]
@@ -462,8 +464,8 @@ pub enum AppError {
 
 impl axum::response::IntoResponse for AppError {
     fn into_response(self) -> axum::response::Response {
-        use axum::http::StatusCode;
         use axum::Json;
+        use axum::http::StatusCode;
 
         let (status, error_message) = match &self {
             AppError::Validation(msg) => (StatusCode::BAD_REQUEST, msg.clone()),
