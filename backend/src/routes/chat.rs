@@ -21,6 +21,44 @@ pub struct ChatResponse {
     pub sources: Vec<String>,
 }
 
+/// Returns true for greetings, filler, or confusion that should not trigger RAG retrieval.
+fn is_conversational_only(message: &str) -> bool {
+    let trimmed = message.trim().to_lowercase();
+
+    if trimmed.is_empty() {
+        return false;
+    }
+
+    const EXACT: &[&str] = &[
+        "yo", "hi", "hey", "sup", "hello", "hiya", "what", "huh", "ok", "okay", "k", "thanks",
+        "thank you", "thx", "bye", "goodbye", "cool", "nice", "lol", "hmm", "hm", "??", "???",
+    ];
+
+    if EXACT.contains(&trimmed.as_str()) {
+        return true;
+    }
+
+    if trimmed.len() <= 20 {
+        const PREFIXES: &[&str] = &[
+            "hi ",
+            "hey ",
+            "hello ",
+            "good morning",
+            "good afternoon",
+            "good evening",
+            "what's up",
+            "whats up",
+            "how are you",
+            "thank you",
+        ];
+        if PREFIXES.iter().any(|p| trimmed.starts_with(p)) {
+            return true;
+        }
+    }
+
+    false
+}
+
 /// POST /api/chat
 ///
 /// Answers user questions using RAG pipeline to retrieve relevant documents
@@ -42,30 +80,28 @@ pub async fn answer_question(
     let rag = RagPipeline::new(&config);
     let gemini = GeminiService::new(&config);
 
-    let (context, sources) = match rag.retrieve_context_with_sources(question, 3).await {
-        Ok((ctx, srcs, count)) => {
-            info!("Retrieved {} chunks from RAG", count);
-            (ctx, srcs)
-        }
-        Err(e) => {
-            info!("RAG retrieval failed: {}. Using general knowledge.", e);
-            (
-                "No specific documents found in the knowledge base.".to_string(),
-                vec!["General knowledge".to_string()],
-            )
+    let (context, sources) = if is_conversational_only(question) {
+        info!("Skipping RAG for conversational message");
+        (String::new(), Vec::new())
+    } else {
+        match rag.retrieve_context_with_sources(question, 3).await {
+            Ok((ctx, srcs, count)) => {
+                info!("Retrieved {} relevant chunks from RAG", count);
+                if count == 0 {
+                    (String::new(), Vec::new())
+                } else {
+                    (ctx, srcs)
+                }
+            }
+            Err(e) => {
+                info!("RAG retrieval failed: {}. Answering without documents.", e);
+                (String::new(), Vec::new())
+            }
         }
     };
 
-    let prompt = format!(
-        "Based on the following context, answer this question:\n\n\
-         Context:\n{}\n\n\
-         Question: {}\n\n\
-         If the context doesn't contain relevant information, say so and provide a general answer.",
-        context, question
-    );
-
     let answer = gemini
-        .generate_answer(&prompt)
+        .generate_chat_answer(question, &context)
         .await
         .map_err(|e| AppError::AiService(format!("Failed to generate answer: {}", e)))?;
 

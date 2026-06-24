@@ -26,27 +26,52 @@ impl GeminiService {
         }
     }
 
-    /// Generate a simple answer from a prompt (for chat)
-    pub async fn generate_answer(&self, prompt: &str) -> anyhow::Result<String> {
-        info!("Generating answer with Gemini 1.5 Pro");
+    /// Generate a natural conversational answer for the document chat assistant
+    pub async fn generate_chat_answer(
+        &self,
+        question: &str,
+        context: &str,
+    ) -> anyhow::Result<String> {
+        info!("Generating chat answer with Gemini");
 
         if self.api_key.is_empty() {
             anyhow::bail!("Gemini API key not configured");
         }
 
+        const SYSTEM_INSTRUCTION: &str = r#"You are a friendly, knowledgeable assistant for entrepreneurs exploring business in Saudi Arabia. You speak naturally — like a helpful advisor in a conversation, not a document reader or search engine.
+
+How to respond:
+- Write in a warm, direct tone. Never open with "Based on the provided context", "According to the documents", or similar robotic phrases.
+- Synthesize information in your own words. Never copy text verbatim from reference excerpts, especially Q&A pairs or placeholder answers.
+- Use reference excerpts only when they genuinely help. If they are unrelated, off-topic, or low quality, ignore them completely.
+- For greetings, small talk, confusion ("what?", "huh?"), or messages that aren't really questions: reply briefly and naturally, then offer to help with Saudi business topics if it fits.
+- For off-topic questions (weather, trivia, etc.): give a short natural answer if you can, then gently note your specialty is Saudi business and regulations.
+- Never comment on document structure or gaps (e.g. "the text does not list a seventh step" or "no information was found in the context for 'what'").
+- Keep answers concise unless the user asks for detail. Use bullet points only when listing steps or requirements.
+- Mention Saudi authorities (Monshaat, Balady, GOSI, ZATCA, Qiwa) naturally when relevant."#;
+
+        let user_message = if context.trim().is_empty() {
+            format!(
+                "User message:\n{question}\n\n\
+                 (No matching reference documents. Respond conversationally from general knowledge about Saudi business and regulations where appropriate.)"
+            )
+        } else {
+            format!(
+                "User message:\n{question}\n\n\
+                 Reference excerpts (use only if genuinely relevant — synthesize in your own words):\n\n{context}"
+            )
+        };
+
         let request_body = serde_json::json!({
-            "contents": [
-                {
-                    "role": "user",
-                    "parts": [
-                        {
-                            "text": prompt
-                        }
-                    ]
-                }
-            ],
+            "systemInstruction": {
+                "parts": [{ "text": SYSTEM_INSTRUCTION }]
+            },
+            "contents": [{
+                "role": "user",
+                "parts": [{ "text": user_message }]
+            }],
             "generationConfig": {
-                "temperature": 0.3,
+                "temperature": 0.55,
                 "maxOutputTokens": 2048
             }
         });

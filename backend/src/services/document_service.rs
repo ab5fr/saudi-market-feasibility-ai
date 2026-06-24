@@ -364,16 +364,16 @@ pub struct ChunkMatch {
 fn source_label_from_payload(payload: &serde_json::Value) -> String {
     let metadata = payload.get("metadata").unwrap_or(payload);
 
-    if let Some(authority) = metadata.get("authority").and_then(|v| v.as_str()) {
-        if !authority.is_empty() {
-            return authority.to_string();
-        }
+    if let Some(authority) = metadata.get("authority").and_then(|v| v.as_str())
+        && !authority.is_empty()
+    {
+        return authority.to_string();
     }
 
-    if let Some(filename) = metadata.get("filename").and_then(|v| v.as_str()) {
-        if !filename.is_empty() {
-            return filename.to_string();
-        }
+    if let Some(filename) = metadata.get("filename").and_then(|v| v.as_str())
+        && !filename.is_empty()
+    {
+        return filename.to_string();
     }
 
     metadata
@@ -397,6 +397,9 @@ fn dedupe_sources(sources: Vec<String>) -> Vec<String> {
 pub struct RagPipeline {
     document_service: DocumentService,
 }
+
+/// Minimum cosine similarity for a chunk to be treated as relevant context
+const MIN_RELEVANCE_SCORE: f32 = 0.62;
 
 impl RagPipeline {
     pub fn new(config: &AppConfig) -> Self {
@@ -422,14 +425,23 @@ impl RagPipeline {
             .search_relevant_chunks(query, top_k)
             .await?;
 
-        let count = chunks.len();
-        let sources = dedupe_sources(chunks.iter().map(|c| c.source_label.clone()).collect());
-
-        let context = chunks
+        let relevant: Vec<_> = chunks
             .into_iter()
-            .map(|chunk| format!("[Relevance: {:.2}]\n{}", chunk.score, chunk.text))
-            .collect::<Vec<_>>()
-            .join("\n\n---\n\n");
+            .filter(|c| c.score >= MIN_RELEVANCE_SCORE)
+            .collect();
+
+        let count = relevant.len();
+        let sources = dedupe_sources(relevant.iter().map(|c| c.source_label.clone()).collect());
+
+        let context = if relevant.is_empty() {
+            String::new()
+        } else {
+            relevant
+                .into_iter()
+                .map(|chunk| format!("Source: {}\n{}", chunk.source_label, chunk.text))
+                .collect::<Vec<_>>()
+                .join("\n\n---\n\n")
+        };
 
         Ok((context, sources, count))
     }
