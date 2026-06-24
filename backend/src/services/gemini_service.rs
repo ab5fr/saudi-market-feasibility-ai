@@ -26,47 +26,28 @@ impl GeminiService {
         }
     }
 
-    /// Analyze documents with long context window
-    /// Gemini 1.5 Pro supports up to 1M+ token context window
-    #[allow(dead_code)]
-    #[instrument(skip(self, documents))]
-    pub async fn analyze_documents(
-        &self,
-        query: &str,
-        documents: Vec<String>,
-    ) -> anyhow::Result<String> {
-        info!(
-            "Sending {} documents to Gemini 1.5 Pro for analysis",
-            documents.len()
-        );
+    /// Generate a simple answer from a prompt (for chat)
+    pub async fn generate_answer(&self, prompt: &str) -> anyhow::Result<String> {
+        info!("Generating answer with Gemini 1.5 Pro");
 
         if self.api_key.is_empty() {
             anyhow::bail!("Gemini API key not configured");
         }
 
-        // Combine documents into context
-        let context = documents.join("\n\n---\n\n");
-        let full_prompt = format!(
-            "Context from Saudi government documents:\n{}\n\nUser Query: {}\n\nProvide a detailed answer based ONLY on the context provided. Cite specific document sources where applicable. If the context doesn't contain relevant information, say so.",
-            context, query
-        );
-
         let request_body = serde_json::json!({
             "contents": [
                 {
                     "role": "user",
                     "parts": [
                         {
-                            "text": full_prompt
+                            "text": prompt
                         }
                     ]
                 }
             ],
             "generationConfig": {
-                "temperature": 0.1,
-                "topK": 1,
-                "topP": 1,
-                "maxOutputTokens": 8192
+                "temperature": 0.3,
+                "maxOutputTokens": 2048
             }
         });
 
@@ -94,149 +75,6 @@ impl GeminiService {
             .ok_or_else(|| anyhow::anyhow!("No text in Gemini response"))?;
 
         Ok(text.to_string())
-    }
-
-    /// Generate response grounded in provided context (RAG-style)
-    #[allow(dead_code)]
-    pub async fn generate_grounded_response(
-        &self,
-        prompt: &str,
-        context: &[String],
-    ) -> anyhow::Result<String> {
-        info!(
-            "Generating grounded response with {} context chunks",
-            context.len()
-        );
-
-        // Create a system instruction for grounded responses
-        let system_instruction = "You are a Saudi Arabian regulatory expert. Answer the user's question using ONLY the provided context from Saudi government documents. If you cannot find the answer in the context, clearly state that. Always cite the specific source document when providing information.";
-
-        let combined_context = context.join("\n\n");
-
-        let full_prompt = format!(
-            "System: {}\n\nContext:\n{}\n\nUser Question: {}\n\nAnswer:",
-            system_instruction, combined_context, prompt
-        );
-
-        let request_body = serde_json::json!({
-            "contents": [
-                {
-                    "role": "user",
-                    "parts": [
-                        {
-                            "text": full_prompt
-                        }
-                    ]
-                }
-            ],
-            "generationConfig": {
-                "temperature": 0.0, // Very deterministic for factual accuracy
-                "maxOutputTokens": 4096
-            }
-        });
-
-        let url = format!(
-            "{}/models/{}:generateContent?key={}",
-            self.base_url, self.model, self.api_key
-        );
-
-        let response = self
-            .client
-            .post(&url)
-            .header("Content-Type", "application/json")
-            .json(&request_body)
-            .send()
-            .await?;
-
-        if !response.status().is_success() {
-            let error_text = response.text().await?;
-            anyhow::bail!("Gemini API error: {}", error_text);
-        }
-
-        let result: serde_json::Value = response.json().await?;
-        let text = result["candidates"][0]["content"]["parts"][0]["text"]
-            .as_str()
-            .ok_or_else(|| anyhow::anyhow!("No text in Gemini response"))?;
-
-        Ok(text.to_string())
-    }
-
-    /// Extract structured information from Saudi documents
-    #[allow(dead_code)]
-    pub async fn extract_regulatory_info(
-        &self,
-        document_text: &str,
-        business_type: &str,
-    ) -> anyhow::Result<serde_json::Value> {
-        info!("Extracting regulatory info for {} business", business_type);
-
-        let prompt = format!(
-            r#"Extract regulatory requirements for a {} business from this Saudi government document.
-
-Document Content:
-{}
-
-Extract and return ONLY JSON with this structure:
-{{
-  "licenses_required": [{{"name": "...", "authority": "...", "estimated_cost_sar": number, "processing_days": number}}],
-  "compliance_requirements": [{{"regulation": "...", "description": "...", "priority": "critical|high|medium|low"}}],
-  "business_structures": [{{"type": "...", "pros": ["..."], "cons": ["..."]}}],
-  "estimated_setup_costs_sar": number,
-  "setup_timeline_weeks": number,
-  "key_insights": ["..."]
-}}"#,
-            business_type, document_text
-        );
-
-        let request_body = serde_json::json!({
-            "contents": [
-                {
-                    "role": "user",
-                    "parts": [{"text": prompt}]
-                }
-            ],
-            "generationConfig": {
-                "temperature": 0.1,
-                "maxOutputTokens": 4096
-            }
-        });
-
-        let url = format!(
-            "{}/models/{}:generateContent?key={}",
-            self.base_url, self.model, self.api_key
-        );
-
-        let response = self
-            .client
-            .post(&url)
-            .header("Content-Type", "application/json")
-            .json(&request_body)
-            .send()
-            .await?;
-
-        let result: serde_json::Value = response.json().await?;
-        let text = result["candidates"][0]["content"]["parts"][0]["text"]
-            .as_str()
-            .ok_or_else(|| anyhow::anyhow!("No text in response"))?;
-
-        // Try to extract JSON from the response (it might be wrapped in markdown)
-        let json_str = if text.contains("```json") {
-            text.split("```json")
-                .nth(1)
-                .unwrap_or(text)
-                .split("```")
-                .next()
-                .unwrap_or(text)
-        } else if text.contains("```") {
-            text.split("```").nth(1).unwrap_or(text)
-        } else {
-            text
-        };
-
-        let parsed: serde_json::Value = serde_json::from_str(json_str.trim())
-            .map_err(|e| anyhow::anyhow!("Failed to parse extracted JSON: {}", e))?;
-
-        Ok(parsed)
     }
 
     /// Generate a complete feasibility study using Gemini
@@ -694,6 +532,7 @@ IMPORTANT:
             .into_iter()
             .map(|text| {
                 serde_json::json!({
+                    "model": format!("models/{}", self.embedding_model),
                     "content": {
                         "parts": [{"text": text}]
                     }

@@ -1,29 +1,21 @@
-use axum::{extract::State, Json};
 use anyhow::Result;
+use axum::{Json, extract::State};
 use tracing::{info, instrument};
 use validator::Validate;
 
 use crate::{
     config::AppConfig,
     models::{
-        FeasibilityRequest,
-        CompetitorAnalysisResponse,
-        Competitor,
-        ThreatLevel,
-        PricingBenchmarks,
-        OnlinePresenceSummary,
-        ApiResponse,
-        AppError,
+        ApiResponse, AppError, Competitor, CompetitorAnalysisResponse, FeasibilityRequest,
+        OnlinePresenceSummary, PricingBenchmarks, ThreatLevel,
     },
     services::{
-        tavily_service::TavilyService,
-        places_service::PlacesService,
-        gemini_service::GeminiService,
+        gemini_service::GeminiService, places_service::PlacesService, tavily_service::TavilyService,
     },
 };
 
 /// POST /api/competitors
-/// 
+///
 /// Analyzes real competitors in the specified Saudi city/district using:
 /// - Tavily Search API for deep web search
 /// - Google Places API for local business data
@@ -38,7 +30,8 @@ pub async fn analyze_competitors(
     );
 
     // Validate the request payload
-    payload.validate()
+    payload
+        .validate()
         .map_err(|e: validator::ValidationErrors| AppError::Validation(e.to_string()))?;
 
     // Initialize services
@@ -53,11 +46,14 @@ pub async fn analyze_competitors(
     };
 
     // Step 1: Search for competitors using Google Places
-    let places_results = match places.find_local_competitors(
-        &payload.industry,
-        &location_str,
-        10000, // 10km radius
-    ).await {
+    let places_results = match places
+        .find_local_competitors(
+            &payload.industry,
+            &location_str,
+            10000, // 10km radius
+        )
+        .await
+    {
         Ok(results) => results,
         Err(e) => {
             info!("Google Places search failed: {}. Using fallback.", e);
@@ -66,10 +62,10 @@ pub async fn analyze_competitors(
     };
 
     // Step 2: Search for online competitor info using Tavily
-    let tavily_results = match tavily.search_competitors(
-        &payload.industry,
-        &payload.target_city,
-    ).await {
+    let tavily_results = match tavily
+        .search_competitors(&payload.industry, &payload.target_city)
+        .await
+    {
         Ok(results) => results,
         Err(e) => {
             info!("Tavily search failed: {}. Using fallback.", e);
@@ -90,7 +86,8 @@ pub async fn analyze_competitors(
         None
     };
 
-    let competitors_with_websites = competitors.iter().filter(|c| c.website.is_some()).count() as i32;
+    let competitors_with_websites =
+        competitors.iter().filter(|c| c.website.is_some()).count() as i32;
 
     // Calculate market saturation (0-100)
     let market_saturation_score = (total_competitors.min(20) as f32 / 20.0 * 100.0).min(100.0);
@@ -113,7 +110,10 @@ pub async fn analyze_competitors(
 
     // Build response
     let response = CompetitorAnalysisResponse {
-        analysis_id: format!("comp_{}", &uuid::Uuid::new_v4().to_string().replace("-", "")[..16]),
+        analysis_id: format!(
+            "comp_{}",
+            &uuid::Uuid::new_v4().to_string().replace("-", "")[..16]
+        ),
         business_name: payload.business_name.clone(),
         search_location: location_str.clone(),
         search_query_used: format!("{} businesses near {}", payload.industry, location_str),
@@ -144,34 +144,39 @@ pub async fn analyze_competitors(
 fn parse_places_results(json: &serde_json::Value, payload: &FeasibilityRequest) -> Vec<Competitor> {
     json["results"]
         .as_array()
-        .map(|arr| arr.iter().map(|place| {
-            let name = place["name"].as_str().unwrap_or("Unknown").to_string();
-            let vicinity = place["vicinity"].as_str().unwrap_or("").to_string();
-            
-            // Determine threat level based on business type similarity
-            let threat_level = determine_threat_level(&name, &payload.business_name);
-            
-            Competitor {
-                name,
-                location: format!("{}, {}", vicinity, payload.target_city),
-                distance_km: None, // Would need to calculate from geometry
-                business_type: "Local Business".to_string(),
-                rating: place["rating"].as_f64().map(|r| r as f32),
-                review_count: place["user_ratings_total"].as_i64().map(|r| r as i32),
-                price_level: place["price_level"].as_i64().map(|p| p as i32),
-                website: None, // Would need place details API call
-                phone: None,
-                strengths: vec!["Physical location established".to_string()],
-                weaknesses: vec!["Competition from new entrants".to_string()],
-                threat_level,
-            }
-        }).collect())
+        .map(|arr| {
+            arr.iter()
+                .map(|place| {
+                    let name = place["name"].as_str().unwrap_or("Unknown").to_string();
+                    let vicinity = place["vicinity"].as_str().unwrap_or("").to_string();
+
+                    // Determine threat level based on business type similarity
+                    let threat_level = determine_threat_level(&name, &payload.business_name);
+
+                    Competitor {
+                        name,
+                        location: format!("{}, {}", vicinity, payload.target_city),
+                        distance_km: None, // Would need to calculate from geometry
+                        business_type: "Local Business".to_string(),
+                        rating: place["rating"].as_f64().map(|r| r as f32),
+                        review_count: place["user_ratings_total"].as_i64().map(|r| r as i32),
+                        price_level: place["price_level"].as_i64().map(|p| p as i32),
+                        website: None, // Would need place details API call
+                        phone: None,
+                        strengths: vec!["Physical location established".to_string()],
+                        weaknesses: vec!["Competition from new entrants".to_string()],
+                        threat_level,
+                    }
+                })
+                .collect()
+        })
         .unwrap_or_default()
 }
 
 fn determine_threat_level(competitor_name: &str, business_name: &str) -> ThreatLevel {
     // Simple heuristic: if names are similar, it's a direct competitor
-    let similarity = calculate_similarity(competitor_name.to_lowercase(), business_name.to_lowercase());
+    let similarity =
+        calculate_similarity(competitor_name.to_lowercase(), business_name.to_lowercase());
     if similarity > 0.5 {
         ThreatLevel::DirectCompetitor
     } else if similarity > 0.3 {
@@ -187,10 +192,10 @@ fn calculate_similarity(a: String, b: String) -> f32 {
     // Simple word overlap similarity
     let words_a: std::collections::HashSet<_> = a.split_whitespace().collect();
     let words_b: std::collections::HashSet<_> = b.split_whitespace().collect();
-    
+
     let intersection: std::collections::HashSet<_> = words_a.intersection(&words_b).collect();
     let union: std::collections::HashSet<_> = words_a.union(&words_b).collect();
-    
+
     if union.is_empty() {
         0.0
     } else {
@@ -208,13 +213,14 @@ struct WebInsights {
 
 fn parse_tavily_results(json: &serde_json::Value) -> WebInsights {
     let answer = json["answer"].as_str().unwrap_or("");
-    
+
     // Extract pricing information if available
     let pricing_benchmarks = PricingBenchmarks {
         average_price_range: "SAR 100 - 500 (estimated from market research)".to_string(),
         lowest_observed: "Market dependent".to_string(),
         highest_observed: "Market dependent".to_string(),
-        pricing_strategy_recommendation: "Conduct local market research for precise pricing".to_string(),
+        pricing_strategy_recommendation: "Conduct local market research for precise pricing"
+            .to_string(),
     };
 
     WebInsights {
@@ -305,14 +311,19 @@ fn default_differentiation_strategy(
         "Create a loyalty program to drive repeat visits".to_string(),
     ];
 
-    if let Some(rating) = avg_rating {
-        if rating < 4.2 {
-            strategies.push("Outperform competitors on service quality and consistency".to_string());
-        }
+    if let Some(rating) = avg_rating
+        && rating < 4.2
+    {
+        strategies.push("Outperform competitors on service quality and consistency".to_string());
     }
 
-    if matches!(payload.business_model, crate::models::BusinessModel::BrickAndMortar) {
-        strategies.push("Design a unique in-store experience that is shareable on social media".to_string());
+    if matches!(
+        payload.business_model,
+        crate::models::BusinessModel::BrickAndMortar
+    ) {
+        strategies.push(
+            "Design a unique in-store experience that is shareable on social media".to_string(),
+        );
     }
 
     strategies

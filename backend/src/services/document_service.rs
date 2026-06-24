@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use tracing::{error, info};
 use uuid::Uuid;
 
@@ -18,15 +18,15 @@ pub struct DocumentService {
 
 impl DocumentService {
     pub fn new(config: &AppConfig) -> Self {
+        let documents_path = resolve_documents_path();
         Self {
             gemini: GeminiService::new(config),
             qdrant: QdrantService::new(config),
-            documents_path: "/app/documents".to_string(),
+            documents_path,
         }
     }
 
     /// Process a document file and add it to the RAG system
-    #[allow(dead_code)]
     pub async fn process_document(
         &self,
         file_path: &str,
@@ -42,13 +42,16 @@ impl DocumentService {
         // Extract text based on file type
         let text = self.extract_text(&content, file_path).await?;
 
-        // Create document record
+        // Create document record with a stable ID derived from the file path
+        let document_id = Uuid::new_v5(&Uuid::NAMESPACE_OID, file_path.as_bytes());
+        let filename = Path::new(file_path)
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_else(|| "unknown".to_string());
+
         let document = Document {
-            id: Uuid::new_v4(),
-            filename: Path::new(file_path)
-                .file_name()
-                .map(|n| n.to_string_lossy().to_string())
-                .unwrap_or_else(|| "unknown".to_string()),
+            id: document_id,
+            filename: filename.clone(),
             original_name: file_path.to_string(),
             file_path: file_path.to_string(),
             file_size: Some(content.len() as i64),
@@ -75,6 +78,7 @@ impl DocumentService {
             .map(|(idx, _)| {
                 serde_json::json!({
                     "document_id": document.id.to_string(),
+                    "filename": filename,
                     "document_type": document_type,
                     "authority": authority,
                     "chunk_index": idx,
@@ -82,6 +86,11 @@ impl DocumentService {
                 })
             })
             .collect();
+
+        // Remove stale chunks before re-ingesting the same document
+        self.qdrant
+            .delete_by_document_id(&document.id.to_string())
+            .await?;
 
         // Store in Qdrant
         let point_ids = self
@@ -93,20 +102,23 @@ impl DocumentService {
         Ok(document)
     }
 
-    /// Search for relevant document chunks
+    /// Search for relevant document chunks with source labels
     pub async fn search_relevant_chunks(
         &self,
         query: &str,
         top_k: i64,
-    ) -> anyhow::Result<Vec<(String, f32)>> {
-        // Create query embedding
+    ) -> anyhow::Result<Vec<ChunkMatch>> {
         let query_embedding = self.gemini.create_query_embedding(query).await?;
-
-        // Search in Qdrant
         let results = self.qdrant.search_similar(query_embedding, top_k).await?;
 
-        // Return text and score
-        Ok(results.into_iter().map(|r| (r.text, r.score)).collect())
+        Ok(results
+            .into_iter()
+            .map(|r| ChunkMatch {
+                text: r.text,
+                score: r.score,
+                source_label: source_label_from_payload(&r.payload),
+            })
+            .collect())
     }
 
     /// Read file content
@@ -137,21 +149,26 @@ impl DocumentService {
         }
     }
 
-    /// Chunk text into overlapping segments
+    /// Chunk text into overlapping segments using char boundaries (UTF-8 safe)
     fn chunk_text(&self, text: &str, chunk_size: usize, overlap: usize) -> Vec<String> {
+        let chars: Vec<char> = text.chars().collect();
+        let len = chars.len();
+        if len == 0 {
+            return Vec::new();
+        }
+
         let mut chunks = Vec::new();
         let mut start = 0;
 
-        while start < text.len() {
-            let end = (start + chunk_size).min(text.len());
-            let chunk = &text[start..end];
+        while start < len {
+            let end = (start + chunk_size).min(len);
+            let chunk: String = chars[start..end].iter().collect();
 
-            // Try to end at a sentence or paragraph boundary
-            let chunk_text = if end < text.len() {
+            let chunk_text = if end < len {
                 if let Some(pos) = chunk.rfind(". ") {
-                    &text[start..start + pos + 1]
+                    chars[start..start + pos + 1].iter().collect()
                 } else if let Some(pos) = chunk.rfind("\n\n") {
-                    &text[start..start + pos]
+                    chars[start..start + pos].iter().collect()
                 } else {
                     chunk
                 }
@@ -159,19 +176,22 @@ impl DocumentService {
                 chunk
             };
 
-            chunks.push(chunk_text.trim().to_string());
+            let trimmed = chunk_text.trim();
+            if !trimmed.is_empty() {
+                chunks.push(trimmed.to_string());
+            }
 
-            // Move forward with overlap
-            let next_start = start + chunk_text.len();
-            if next_start > start {
-                start = next_start - overlap.min(chunk_text.len());
-            } else {
+            let chunk_len = chunk_text.chars().count();
+            if chunk_len == 0 {
                 break;
             }
 
-            if next_start >= text.len() {
+            let next_start = start + chunk_len;
+            if next_start >= len {
                 break;
             }
+
+            start = next_start.saturating_sub(overlap.min(chunk_len));
         }
 
         chunks
@@ -234,21 +254,30 @@ impl DocumentService {
     }
 
     /// List all documents in the documents directory
-    #[allow(dead_code)]
     pub async fn list_documents(&self) -> anyhow::Result<Vec<String>> {
         let mut files = Vec::new();
 
-        match tokio::fs::read_dir(&self.documents_path).await {
-            Ok(mut entries) => {
-                while let Some(entry) = entries.next_entry().await? {
-                    let path = entry.path();
-                    if path.is_file() {
-                        files.push(path.to_string_lossy().to_string());
+        let mut stack = vec![PathBuf::from(&self.documents_path)];
+
+        while let Some(dir) = stack.pop() {
+            match tokio::fs::read_dir(&dir).await {
+                Ok(mut entries) => {
+                    while let Some(entry) = entries.next_entry().await? {
+                        let path = entry.path();
+                        if path.is_dir() {
+                            stack.push(path);
+                        } else if path.is_file() {
+                            files.push(path.to_string_lossy().to_string());
+                        }
                     }
                 }
-            }
-            Err(e) => {
-                error!("Failed to read documents directory: {}", e);
+                Err(e) => {
+                    error!(
+                        "Failed to read documents directory {}: {}",
+                        dir.display(),
+                        e
+                    );
+                }
             }
         }
 
@@ -256,19 +285,12 @@ impl DocumentService {
     }
 
     /// Process all documents in the documents directory
-    #[allow(dead_code)]
     pub async fn process_all_documents(&self) -> anyhow::Result<Vec<Document>> {
         let files = self.list_documents().await?;
         let mut documents = Vec::new();
 
         for file in files {
-            // Determine document type from path
-            let (doc_type, authority) = self.classify_document(&file);
-
-            match self
-                .process_document(&file, doc_type, authority, None)
-                .await
-            {
+            match self.process_path(&file).await {
                 Ok(doc) => documents.push(doc),
                 Err(e) => error!("Failed to process {}: {}", file, e),
             }
@@ -277,8 +299,15 @@ impl DocumentService {
         Ok(documents)
     }
 
-    /// Classify document based on file path/name
-    #[allow(dead_code)]
+    /// Process a document path using auto-classification.
+    pub async fn process_path(&self, file_path: &str) -> anyhow::Result<Document> {
+        // Determine document type from path
+        let (doc_type, authority) = self.classify_document(file_path);
+
+        self.process_document(file_path, doc_type, authority, None)
+            .await
+    }
+
     fn classify_document(&self, path: &str) -> (&str, Option<&str>) {
         let lower_path = path.to_lowercase();
 
@@ -304,51 +333,104 @@ impl DocumentService {
     }
 }
 
+fn resolve_documents_path() -> String {
+    if let Ok(path) = std::env::var("DOCUMENTS_PATH") {
+        return path;
+    }
+
+    let candidates = [
+        "../documents",
+        "./documents",
+        "../../documents",
+        "/app/documents",
+    ];
+
+    for candidate in candidates {
+        if Path::new(candidate).exists() {
+            return candidate.to_string();
+        }
+    }
+
+    "/app/documents".to_string()
+}
+
+/// A retrieved document chunk with relevance score and source label
+pub struct ChunkMatch {
+    pub text: String,
+    pub score: f32,
+    pub source_label: String,
+}
+
+fn source_label_from_payload(payload: &serde_json::Value) -> String {
+    let metadata = payload.get("metadata").unwrap_or(payload);
+
+    if let Some(authority) = metadata.get("authority").and_then(|v| v.as_str()) {
+        if !authority.is_empty() {
+            return authority.to_string();
+        }
+    }
+
+    if let Some(filename) = metadata.get("filename").and_then(|v| v.as_str()) {
+        if !filename.is_empty() {
+            return filename.to_string();
+        }
+    }
+
+    metadata
+        .get("document_type")
+        .and_then(|v| v.as_str())
+        .unwrap_or("Document")
+        .to_string()
+}
+
+fn dedupe_sources(sources: Vec<String>) -> Vec<String> {
+    let mut unique = Vec::new();
+    for source in sources {
+        if !unique.iter().any(|existing| existing == &source) {
+            unique.push(source);
+        }
+    }
+    unique
+}
+
 /// RAG Pipeline for retrieving context
 pub struct RagPipeline {
     document_service: DocumentService,
-    #[allow(dead_code)]
-    gemini: crate::services::gemini_service::GeminiService,
 }
 
 impl RagPipeline {
     pub fn new(config: &AppConfig) -> Self {
         Self {
             document_service: DocumentService::new(config),
-            gemini: crate::services::gemini_service::GeminiService::new(config),
         }
     }
 
     /// Retrieve relevant context for a business query
     pub async fn retrieve_context(&self, query: &str, top_k: i64) -> anyhow::Result<String> {
-        // Search for relevant chunks
+        let (context, _, _) = self.retrieve_context_with_sources(query, top_k).await?;
+        Ok(context)
+    }
+
+    /// Retrieve context text, deduplicated source labels, and chunk count
+    pub async fn retrieve_context_with_sources(
+        &self,
+        query: &str,
+        top_k: i64,
+    ) -> anyhow::Result<(String, Vec<String>, usize)> {
         let chunks = self
             .document_service
             .search_relevant_chunks(query, top_k)
             .await?;
 
-        // Combine chunks into context
+        let count = chunks.len();
+        let sources = dedupe_sources(chunks.iter().map(|c| c.source_label.clone()).collect());
+
         let context = chunks
             .into_iter()
-            .map(|(text, score)| format!("[Relevance: {:.2}]\n{}", score, text))
+            .map(|chunk| format!("[Relevance: {:.2}]\n{}", chunk.score, chunk.text))
             .collect::<Vec<_>>()
             .join("\n\n---\n\n");
 
-        Ok(context)
-    }
-
-    /// Generate a grounded response using RAG
-    #[allow(dead_code)]
-    pub async fn generate_grounded_response(&self, query: &str) -> anyhow::Result<String> {
-        // Retrieve context
-        let context = self.retrieve_context(query, 5).await?;
-
-        // Generate response using Gemini
-        let response = self
-            .gemini
-            .generate_grounded_response(query, &[context])
-            .await?;
-
-        Ok(response)
+        Ok((context, sources, count))
     }
 }

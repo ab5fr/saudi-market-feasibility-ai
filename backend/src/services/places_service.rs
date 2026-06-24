@@ -74,35 +74,6 @@ impl PlacesService {
         Ok(result)
     }
 
-    /// Get detailed information about a specific place
-    #[allow(dead_code)]
-    pub async fn get_place_details(
-        &self,
-        place_id: &str,
-    ) -> anyhow::Result<serde_json::Value> {
-        info!("Fetching place details for: {}", place_id);
-        
-        let url = format!(
-            "{}/place/details/json?place_id={}&fields=name,rating,formatted_phone_number,website,opening_hours,reviews,price_level,formatted_address&key={}",
-            self.base_url,
-            place_id,
-            self.api_key
-        );
-
-        let response = self.client
-            .get(&url)
-            .send()
-            .await?;
-
-        if !response.status().is_success() {
-            let error_text = response.text().await?;
-            anyhow::bail!("Google Places Details API error: {}", error_text);
-        }
-
-        let result: serde_json::Value = response.json().await?;
-        Ok(result)
-    }
-
     /// Geocode a location string to coordinates
     pub async fn geocode_location(
         &self,
@@ -139,33 +110,5 @@ impl PlacesService {
         let lng = location["lng"].as_f64().ok_or_else(|| anyhow::anyhow!("Invalid longitude"))?;
 
         Ok((lat, lng))
-    }
-
-    /// Text search for places (alternative to nearby search)
-    #[allow(dead_code)]
-    pub async fn text_search(
-        &self,
-        query: &str,
-        location: Option<&str>,
-    ) -> anyhow::Result<serde_json::Value> {
-        let mut url = format!(
-            "{}/place/textsearch/json?query={}&key={}",
-            self.base_url,
-            urlencoding::encode(query),
-            self.api_key
-        );
-
-        if let Some(loc) = location {
-            let (lat, lng) = self.geocode_location(loc).await?;
-            url.push_str(&format!("&location={},{}&radius=50000", lat, lng));
-        }
-
-        let response = self.client
-            .get(&url)
-            .send()
-            .await?;
-
-        let result: serde_json::Value = response.json().await?;
-        Ok(result)
     }
 }

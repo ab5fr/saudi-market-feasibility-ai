@@ -1,0 +1,51 @@
+Demo Test Document for RAG Chat Testing
+==========================================
+
+Question: What color is the sky?
+Answer: color of sky is fr
+
+Question: What is the capital of Saudi Arabia?
+Answer: The capital of Saudi Arabia is Riyadh. Riyadh is a major economic and political hub, serving as the center of government for the Kingdom of Saudi Arabia.
+
+Question: What are the main industries in Saudi Arabia?
+Answer: The main industries in Saudi Arabia include:
+1. Oil and Gas - The largest industry, with Saudi Arabia being one of the world's largest oil producers
+2. Petrochemicals - Refining and chemical production based on crude oil
+3. Construction and Real Estate - Rapid development and urbanization
+4. Retail and Commerce - Growing consumer market
+5. Finance and Banking - Banking sector is well-developed
+6. Tourism - Rapidly developing sector with Vision 2030 investments
+7. Manufacturing - Growing industrial base
+
+Question: How do I start a business in Saudi Arabia?
+Answer: To start a business in Saudi Arabia, you need to follow these steps:
+1. Obtain a Commercial Registration from the Ministry of Commerce
+2. Get municipal license from your local municipality (Balady)
+3. Register with GOSI for social insurance if you have employees
+4. Register with ZATCA for tax and Zakat purposes
+5. Open a business bank account
+6. Hire employees and issue labor contracts if needed
+7. Comply with industry-specific regulations
+
+Question: What is the labor law in Saudi Arabia?
+Answer: Saudi Arabia's labor law is governed by the Labor Law for the Private Sector, which includes:
+- Maximum working hours: 48 hours per week
+- Minimum wage requirements
+- Annual leave entitlements: 30 days per year
+- Health insurance requirements for employees
+- Regulations on foreign workers (Iqama)
+- Protection for workers' rights
+- Regulations on contract types and termination
+
+Question: What are the licensing requirements for a restaurant?
+Answer: For a restaurant in Saudi Arabia, you need:
+1. Commercial Registration from Ministry of Commerce
+2. Municipal License from local Balady office
+3. Health and Safety Certificate from health authorities
+4. Food Handler Certificate
+5. Environmental Compliance Certificate if required
+6. Labor contracts for all employees
+7. GOSI registration for social insurance
+8. ZATCA tax registration
+
+This is a demo test file for verifying RAG chat functionality.

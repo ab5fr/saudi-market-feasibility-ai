@@ -3,6 +3,8 @@ import {
   PersonaDebateResponse,
   FeasibilityStudyResponse,
   CompetitorAnalysisResponse,
+  ChatRequest,
+  ChatResponse,
   ApiResponse,
 } from "../types";
 
@@ -72,6 +74,15 @@ export async function submitCompetitorAnalysis(
   request: FeasibilityRequest,
 ): Promise<ApiResponse<CompetitorAnalysisResponse>> {
   return fetchApi<CompetitorAnalysisResponse>("/competitors", {
+    method: "POST",
+    body: JSON.stringify(request),
+  });
+}
+
+export async function submitChat(
+  request: ChatRequest,
+): Promise<ApiResponse<ChatResponse>> {
+  return fetchApi<ChatResponse>("/chat", {
     method: "POST",
     body: JSON.stringify(request),
   });

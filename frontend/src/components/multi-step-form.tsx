@@ -256,10 +256,10 @@ export function MultiStepForm() {
 
   const isFormValid = () =>
     Boolean(
-      formData.business_name?.trim().length >= 3 &&
-      formData.description?.trim().length >= 50 &&
-      formData.industry?.trim().length > 0 &&
-      formData.target_city?.trim().length > 0 &&
+      (formData.business_name?.trim().length ?? 0) >= 3 &&
+      (formData.description?.trim().length ?? 0) >= 50 &&
+      (formData.industry?.trim().length ?? 0) > 0 &&
+      (formData.target_city?.trim().length ?? 0) > 0 &&
       Number(formData.capital_budget || 0) >= 0 &&
       Number(formData.initial_employees || 0) >= 0 &&
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contact_email || ""),

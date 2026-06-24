@@ -112,16 +112,6 @@ impl<T> ApiResponse<T> {
             timestamp: Utc::now(),
         }
     }
-
-    #[allow(dead_code)]
-    pub fn error(message: impl Into<String>) -> Self {
-        Self {
-            success: false,
-            data: None,
-            error: Some(message.into()),
-            timestamp: Utc::now(),
-        }
-    }
 }
 
 // ============================================================================

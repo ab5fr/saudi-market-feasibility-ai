@@ -54,6 +54,15 @@ export interface ApiResponse<T> {
   timestamp: string;
 }
 
+export interface ChatRequest {
+  question: string;
+}
+
+export interface ChatResponse {
+  answer: string;
+  sources: string[];
+}
+
 export interface PersonaDebateResponse {
   session_id: string;
   business_name: string;

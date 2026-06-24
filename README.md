@@ -116,8 +116,17 @@ Base URL: `http://localhost:3001`
 - `POST /api/rag-study`
 - `POST /api/personas`
 - `POST /api/competitors`
+- `POST /api/chat` — RAG-based document Q&A
 
-Example request:
+Example chat request:
+
+```bash
+curl -X POST http://localhost:3001/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What licenses are required to open a coffee shop in Jeddah?"}'
+```
+
+Example feasibility study request:
 
 ```bash
 curl -X POST http://localhost:3001/api/rag-study \

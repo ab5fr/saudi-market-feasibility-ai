@@ -19,7 +19,6 @@ pdf-extract = "*"
 
 # Environment & Config
 dotenvy = "*"
-config = "*"
 
 # Error Handling
 thiserror = "*"
@@ -36,20 +35,11 @@ validator = { version = "*", features = ["derive"] }
 reqwest = { version = "*", features = ["json", "rustls-tls"] }
 urlencoding = "*"
 
-# Async Traits
-async-trait = "*"
-
 # UUID
-cuid2 = "*"
-uuid = { version = "*", features = ["v4", "serde"] }
+uuid = { version = "*", features = ["v4", "v5", "serde"] }
 
 # Date/Time
 chrono = { version = "*", features = ["serde"] }
-
-[dev-dependencies]
-tokio-test = "*"
-axum-test = "*"
-mockall = "*"
 
 [[bin]]
 name = "saudi-market-backend"
